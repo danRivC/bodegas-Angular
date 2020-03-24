@@ -1,0 +1,89 @@
+<app-titulo [titulo]="titulo"></app-titulo>
+<div class="card">
+    <div class="card-body">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-10">
+                </div>
+                <div class="col-lg-2 mt-4">
+                    <button (click)="regresar()" class="btn btn-danger">Regresar</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                        <mat-step [stepControl]="perfilForm">
+                          <form [formGroup]="perfilForm" class="form-group" (ngSubmit)="guardarDatosPerfil()">
+                            <ng-template matStepLabel>Datos principales del perfil</ng-template>
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input class="form-control" placeholder="Nombre" formControlName="nombre" required>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <input  class="form-control" placeholder="Descripcion" formControlName="descripcion" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <label for="" class="ml-3">Estado</label>
+                                        <div class="col-lg-12 mt-2">
+                                            <mat-radio-group aria-label="Estado"  formControlName="estado">
+                                                <div class="col-lg-6">
+                                                        <mat-radio-button [checked]="activo" value=true>Activo</mat-radio-button>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-radio-button [checked]="inactivo" value=false>Inactivo</mat-radio-button>
+                                                    </div>
+                                                </mat-radio-group>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-lg-12">
+                                            <button mat-button matStepperNext class="btn btn-primary" type="submit">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                          </form>
+                        </mat-step>
+                        <mat-step [stepControl]="perfilPaginaForm">
+                            <form [formGroup]="perfilPaginaForm" (submit)='recargarPagina()'>
+                                <ng-template matStepLabel>Asignar Páginas</ng-template>
+                                <div class="mt-2">
+                                      <div class="col-lg-12 mt-2">
+                                          <div class="row">
+                                              <div class="col-lg-4">
+                                                  <label for="">Paginas Disponibles</label>
+                                                <select size="10" class="form-control" formControlName='paginaDisponible'>
+                                                    <option *ngFor="let pagina of paginaDisponibleList" value={{pagina.codigo}}> {{pagina.nombre}}</option>
+                                                </select>
+
+                                              </div>
+                                              <div class="col-lg-4 mt-4" style="text-align: center;">
+                                                  <button class="btn btn-info" type="button" (click)='pasarUno()'>>></button>
+                                                  <p></p>
+                                                  <button class="btn btn-info" type="button" (click)='regresarUno()'><<</button>
+                                              </div>
+                                              <div class="col-lg-4">
+                                                <label for="">Paginas No Disponibles</label>
+                                                <select size='10' class="form-control" formControlName='paginaNoDisponible'>
+                                                    <option *ngFor="let pagina of PaginaNoDisponibleList" value={{pagina.codigo}}> {{pagina.nombre}}</option>
+                                                  </select>
+                                                  <div class="col-lg-12 alert alert-danger mt-2" *ngIf="paginaNoDisponible.invalid && (paginaNoDisponible.dirty|| paginaNoDisponible.touched) ">
+                                                    <div class="container-error-message">
+                                                        Debe asignar al menos una página al perfil
+                                                    </div>
+                                                  </div>
+                                              </div>
+
+                                          </div>
+                                          <button mat-button matStepperNext class="btn btn-primary mt-3" type="submit">Guardar</button>
+                                      </div>
+                                  </div>
+                            </form>
+                        </mat-step>
+                    </mat-horizontal-stepper>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<h3>Registra un Ingreso de: {{producto}}</h3>
+<form  [formGroup]='entradaForm' (submit)='guardar()' class="col-lg-12 mt-3">
+        <div class="row">
+            <div class="col-lg-4">
+                <label for="">Bodega</label>
+                <mat-select formControlName='bodegaSelector' (selectionChange)="traerUbicacion($event)" class="form-control">
+                    <mat-option *ngFor="let bodega of bodegas" [value]="bodega.codigo" >{{bodega.nombre}}</mat-option>
+                </mat-select>
+            </div>
+            <div class="col-lg-4">
+                <label for="">Ubicacion</label>
+                <mat-select formControlName='ubicacionSelector' class="form-control">
+                    <mat-option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.codigo" >{{ubicacion.nombre}}</mat-option>
+                </mat-select>
+            </div>
+            <div class="col-lg-4">
+                <label for="">Cantidad</label>
+                <input formControlName='cantidad' type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <label for="">Descripción</label>
+                <textarea name="" id="" cols="30" rows="10" class="form-control" formControlName='descripcion'></textarea>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-4">
+                    <button class="btn btn-success" type="submit">Ingresar</button>
+            </div>
+        </div>
+</form>

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using nuo_api_bodegas.Data;
 using nuo_api_bodegas.Models;
+using ServiceReference1;
 
 namespace nuo_api_bodegas.Controllers
 {
@@ -21,12 +22,14 @@ namespace nuo_api_bodegas.Controllers
     {
         private readonly ValoresLogin _login;
         private readonly IConfiguration _configuration;
+        private readonly WSFicheroMedicoSoap _wSFicheroMedicoSoap;
 
         public LoginController(ValoresLogin login, IConfiguration configuration)
         {
             _login = login ?? throw new ArgumentNullException(nameof(login));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
+        
 
         
         
@@ -41,6 +44,8 @@ namespace nuo_api_bodegas.Controllers
             
             try
             {
+                
+                
                 using (DirectoryEntry adsEntry = new DirectoryEntry("LDAP://172.20.10.10", login.Usuario, login.Password))
                 {
                     DirectorySearcher searcher = new DirectorySearcher(adsEntry)
@@ -66,11 +71,11 @@ namespace nuo_api_bodegas.Controllers
                 {
                     new Claim(JwtRegisteredClaimNames.UniqueName, login.Usuario),
                     new Claim("Nuo Tecnologica", "Departamento I+D"),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var expiration =  DateTime.UtcNow.AddMonths(1);
+                var expiration =  DateTime.UtcNow.AddDays(1);
 
                 JwtSecurityToken token = new JwtSecurityToken(
                     issuer: null,

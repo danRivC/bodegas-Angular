@@ -1,0 +1,56 @@
+<app-titulo [titulo]='titulo'></app-titulo>
+<div class="card">
+    <div class="card-body">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-10">
+                </div>
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button class="btn btn-success" (click)='guardarUbicacion()' type="submit">Guardar</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button class="btn btn-danger" (click)='regresar()'>Regresar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+            <div class="row">
+                <form action="" [formGroup]='ubicacionForm' (submit)='guardarUbicacion()' class="col-lg-12">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="">Nombre</label>
+                                <input type="text" class="form-control" formControlName='descripcion'>
+                                <div class="alert alert-danger" *ngIf='descripcion.invalid && (descripcion.dirty || descripcion.touched)'>
+                                    <div class="alert-content">
+                                        El nombre es obligatorio
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <mat-radio-group aria-label="Estado"  formControlName="estado">
+                                    <div class="col-lg-6">
+                                        <label for="">Estado</label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <mat-radio-button [checked]="activo" value=true>Activo</mat-radio-button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <mat-radio-button [checked]="inactivo" value=false>Inactivo</mat-radio-button>
+                                    </div>
+                                </mat-radio-group>
+                                <div class="alert alert-danger" *ngIf='estado.invalid && (estado.dirty || estado.touched)'>
+                                    <div class="alert-content">
+                                        Debe seleccionar un estado
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

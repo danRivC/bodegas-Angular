@@ -1,0 +1,52 @@
+<app-titulo [titulo]="titulo"></app-titulo>
+<div class="card">
+    <div class="card-body">
+        <form class="form-group row col-lg-12" #f="ngForm" >
+            <div class="col-lg-4">
+                <label for="bodega" >Ciudad</label>
+                <input class="form-control"  (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </div>
+            <div class="col-lg-6">
+
+            </div>
+            <div class="col-lg-2">
+                    <div class="col-lg-12 mt-4">
+                        <button class="btn btn-success" (click)='nuevo()' style="color: white;">Nuevo</button>
+                    </div>
+            </div>
+        </form>
+        <div class="mt-3 col-lg-12">
+            <div class="table ">
+                <table mat-table [dataSource] ="dataSource"  class="col-lg-12 table-responsive-lg ">
+                    
+                      <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                        <td mat-cell *matCellDef="let producto"> {{producto.nombre}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="bodega">
+                        <th mat-header-cell *matHeaderCellDef> Bodega </th>
+                        <td mat-cell *matCellDef="let producto"> {{producto.bodega}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="parte">
+                        <th mat-header-cell *matHeaderCellDef> N° Parte </th>
+                        <td mat-cell *matCellDef="let producto"> {{producto.parte}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                        <td mat-cell *matCellDef="let producto"> {{producto.cantidad}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Editar </th>
+                        <td mat-cell *matCellDef="let producto">
+                            <button class="btn btn-primary" type="button" (click)='guardarCiudad(producto)'>Seleccionar</button>
+                        </td>
+                        
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

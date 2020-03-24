@@ -1,45 +1,45 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
 
-import { LoginComponent } from './components/login/login.component';
-import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './components/home/home.component';
 import { AuthGuardService } from './core/auth-guard.services';
-
 import { AuthInterceptorService } from './core/auth-interceptor.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AutenticationService } from './core/autentication.service';
-import { NavComponent } from './components/nav/nav.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { PaginaComponent } from './components/pagina/pagina.component';
-import { UsuarioComponent } from './components/usuario/usuario.component';
+
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BaseComponent } from './components/base/base.component';
-import { UsuarioFormularioComponent } from './components/usuario/usuario-formulario/usuario-formulario.component';
-import { TituloComponent } from './components/base/titulo/titulo.component';
-import { MatTable, MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material';
+import { MaterialModule } from './material/material.module';
 
 
 
 
 
+
+
+
+import { AutenticationService } from './login/service/autentication.service';
+import { LoadingScreenService } from './shared/components/loading-screen/service/loading-screen.service';
+
+import { BodegaModule } from './bodega/bodega.module';
+import { BaseModule } from './base/base.module';
+import { CiudadModule } from './ciudad/ciudad.module';
+import { KardexModule } from './kardex/kardex.module';
+import { LoginModule } from './login/components/login/login.module';
+import { SharedModule } from './shared/shared.module';
+import { ModelosModule } from './modelos/modelos.module';
+import { PerfilModule } from './perfil/perfil.module';
+import { ProductoModule } from './producto/producto.module';
+import { ProveedorModule } from './proveedor/proveedor.module';
+import { SalidaModule } from './salida/salida.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { UbicacionModule } from './ubicacion/ubicacion.module';
+import { TipoProductoModule } from './tipo-producto/tipo-producto.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    HomeComponent,
-    NavComponent,
-    SidebarComponent,
-    PaginaComponent,
-    UsuarioComponent,
-    BaseComponent,
-    UsuarioFormularioComponent,
-    TituloComponent,
     
   ],
   imports: [
@@ -49,13 +49,31 @@ import { MatPaginatorModule } from '@angular/material';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatTableModule,
-    MatPaginatorModule
-  ],
+    MaterialModule,
+    BodegaModule,
+    BaseModule,
+    CiudadModule,
+    KardexModule,
+    LoginModule,
+    SharedModule,
+    ModelosModule,
+    PerfilModule,
+    ProductoModule,
+    ProveedorModule,
+    SalidaModule,
+    UsuarioModule,
+    UbicacionModule,
+    TipoProductoModule
+    ],
+  entryComponents:[
+    
+    ],
   providers: [
+    
     AuthGuardService,
     AuthInterceptorService,
     AutenticationService,
+    LoadingScreenService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,

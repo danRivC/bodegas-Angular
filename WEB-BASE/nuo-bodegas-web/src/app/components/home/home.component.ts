@@ -10,5 +10,5 @@ export class HomeComponent implements OnInit {
   constructor() { }
   ngOnInit() {
   }
-  titulo="Inicio";
+  titulo=`Bienvenid@ ${localStorage.getItem('usuario_nombre')} ${localStorage.getItem('usuario_apellido')}`;
 }

@@ -5,7 +5,7 @@ export class IUsuario implements Deserializable{
     public Nombre: string;
     public Apellido: string;
     public Username: string;
-    public EstaActivo: boolean;
+    public EstaActivo: string;
     public Correo: string;
 
     deserialize(input:any):this{

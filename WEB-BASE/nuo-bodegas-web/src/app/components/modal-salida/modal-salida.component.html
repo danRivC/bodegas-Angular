@@ -1,0 +1,45 @@
+<h3>Registra un Despacho de: {{producto}}</h3>
+<form  [formGroup]='despachoForm' (submit)='guardar()' class="col-lg-12 mt-3">
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="">Bodega</label>
+            <mat-select formControlName='bodegaSelector' (selectionChange)="traerUbicacion($event)" class="form-control">
+                <mat-option *ngFor="let bodega of bodegas" [value]="bodega.codigo" >{{bodega.nombre}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-lg-4">
+            <label for="">Ubicacion</label>
+            <mat-select formControlName='ubicacionSelector' (selectionChange)="traerCantidad($event)" class="form-control">
+                <mat-option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion.codigo" >{{ubicacion.nombre}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-lg-4">
+            <label for="">Cantidad</label>
+            <input formControlName='cantidad' type="text" class="form-control">
+        </div>
+        <div class="col-lg-12">
+            <div *ngIf="cantidad <1" class="alert alert-warning">
+                <p class="alert-content">
+                    NO TIENES ESE PRODUCTO EN LA UBICACIÓN SELECCIONADA
+                </p>
+            </div>
+            <div *ngIf="cantidad >0" class="alert alert-success">
+                <p class="alert-content">
+                        STOCK: {{cantidad}}
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <label for="">Descripción</label>
+            <textarea name="" id="" cols="30" rows="10" class="form-control" formControlName='descripcion'></textarea>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-4">
+                <button class="btn btn-success" type="submit">Ingresar</button>
+        </div>
+    </div>
+</form>

@@ -45,14 +45,21 @@ export class AutenticationService {
         if(!exp){
             return false;
         }
-        var now = new Date().getTime();
-        var dataExp = new Date(exp);
-        if(now >= dataExp.getTime()){
+        var now = new Date();
+        var dateExp = new Date(exp);
+        
+        
+
+
+        if (now.getTime() >= dateExp.getTime()) {
+            // ya expiró el token
             localStorage.removeItem('token');
-            localStorage.removeItem("tokenExpiration");
+            localStorage.removeItem('tokenExpiration');
             return false;
-        }else{
+        } else {
+            
             return true;
+            
         }
     }
 }

@@ -11,8 +11,9 @@ namespace nuo_api_bodegas.Models
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Username { get; set; }
-        public bool EstaActivo { get; set; }
+        public string EstaActivo { get; set; }
         public string Correo { get; set; }
+        public int Ciudad { get; set; }
         
 
 

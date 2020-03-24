@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using nuo_api_bodegas.Metodos;
 using nuo_api_bodegas.Models;
-
+using ServiceReference1;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -13,13 +13,15 @@ namespace nuo_api_bodegas.Data
     public class ValoresPerfiles
     {
         
+        
+        
         private readonly string _connectionString;
         public ValoresPerfiles(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("defaultConnection");
         }
 
-        public async Task<BaseResponse> GetPerfilesById(int id)
+        public async Task<BaseResponse> ListarPerfiles()
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -27,9 +29,8 @@ namespace nuo_api_bodegas.Data
                 response.resultado = new List<object>();
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SP_DEVUELVE_PERFILES_USUARIO", sql))
+                    using (SqlCommand cmd = new SqlCommand("SP_DEVUELVE_LISTA_PERFILES", sql))
                     {
-                        cmd.Parameters.Add(new SqlParameter("@ID", id));
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         response.status = "correcto";
                         response.mensaje = "Consulta Correcta";
@@ -40,7 +41,7 @@ namespace nuo_api_bodegas.Data
                         {
                             while (await reader.ReadAsync())
                             {
-                                _perfiles =  Utilidades.MapearPerfiles(reader);
+                                _perfiles = Utilidades.MapearPerfiles(reader);
                                 response.resultado.Add(_perfiles);
                             }
                         }
@@ -56,7 +57,128 @@ namespace nuo_api_bodegas.Data
                     return response;
                 }
             }
+        }
+
+        public async Task<BaseRequest> GetPaginasPerfiles(int id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                BaseRequest response = new BaseRequest();
+                response.datos = new List<object>();
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("SP_DEVUELVE_PAGINAS_PERFIL", sql))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@CODIGO_PUS", id));
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        response.status = "correcto";
+                        response.mensaje = "Consulta Correcta";
+                        PaginasDisponible _perfiles = new PaginasDisponible();
+                        response.codigo = "201";
+                        await sql.OpenAsync();
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                _perfiles = Utilidades.MapearPaginasDisponibles(reader);
+                                response.datos.Add(_perfiles);
+                            }
+                        }
+                        return response;
+                    }
+                }
+                catch (Exception er)
+                {
+                    response.codigo = "500";
+                    response.mensaje = er.Message;
+                    response.status = "error";
+                    return response;
+                }
+            }
+        }
+
+        public async Task<BaseResponse> GetPerfilesById(int id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                BaseResponse response = new BaseResponse();
+                response.resultado = new List<object>();
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand("SP_DEVUELVE_PERFIL", sql))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@CODIGO_PUS", id));
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        response.status = "correcto";
+                        response.mensaje = "Consulta Correcta";
+                        Perfiles _perfiles = new Perfiles();
+                        Pagina _paginas = new Pagina();
+                        response.codigo = "201";
+                        await sql.OpenAsync();
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            
+                            while (await reader.ReadAsync())
+                            {
+                                _perfiles =  Utilidades.MapearPerfiles(reader);
+                                response.resultado.Add(_perfiles);
+                                
+                                
+                            }
+                        }
+                        return response;
+                    }
+                }
+                catch (Exception er)
+                {
+                    response.codigo = "500";
+                    response.mensaje = er.Message;
+                    response.status = "error";
+                    return response;
+                }
+            }
             
+        }
+
+        public async Task<BaseResponse> GuardarPaginaPerfil(PaginaPerfil pagina)
+        {
+            BaseResponse response = new BaseResponse();
+            response.resultado = new List<object>();
+            try
+            {
+                using (SqlConnection sql = new SqlConnection(_connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SP_INSERTA_ACTUALIZA_PAGINA", sql))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@CODIGO_PUS", pagina.codigoPerfil));
+                        cmd.Parameters.Add(new SqlParameter("@ESTAACTIVO_MPE", pagina.estadoMpe));
+                        cmd.Parameters.Add(new SqlParameter("@CODIGO_PAG", pagina.codigoPagina));
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        Respuesta respuesta = new Respuesta();
+                        response.status = "correcto";
+                        response.mensaje = "Consulta Correcta";
+                        Perfiles _perfiles = new Perfiles();
+                        response.codigo = "201";
+                        await sql.OpenAsync();
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                response.resultado.Add(Utilidades.MapearRespuesta(reader));
+                            }
+                        }
+                        return response;
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                response.codigo = "500";
+                response.mensaje = er.Message;
+                response.status = "error";
+                return response;
+            }
+
         }
 
         public async Task<BaseResponse>PostPerfil(Perfiles perfiles)

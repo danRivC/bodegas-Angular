@@ -62,7 +62,7 @@ namespace nuo_api_bodegas.Controllers
             BaseResponse request = new BaseResponse();
             try
             {
-                if (as_aliasUser!=null)
+                if (as_aliasUser != null)
                 {
                     return await _usuarios.GetByUsername(as_aliasUser, ab_estaActivo);
                 }
@@ -70,17 +70,55 @@ namespace nuo_api_bodegas.Controllers
                 {
                     return await _usuarios.GetAll();
                 }
-                
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("perfiles/{id_usuario}")]
+        public async Task<ActionResult<BaseResponse>> TraerPerfiles(int id_usuario)
+        {
+            BaseResponse response = new BaseResponse();
+            try
+            {
+                return await _usuarios.TraerPerfiles(id_usuario);
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+
+        [HttpGet("buscar/{id_usuario}")]
+        public async Task<ActionResult<BaseResponse>> BuscarUsuario(int id_usuario)
+        {
+            BaseResponse response = new BaseResponse();
+            try
+            {
+                return await _usuarios.GetUsuario(id_usuario);
+            }
+            catch (Exception)
+            {
                 return BadRequest();
             }
-
         }
-    
 
+        [HttpPost("perfiles")]
+        public async Task<ActionResult<BaseRequest>> InsertarActualizarPerfiles([FromBody]PerfilUsuario perfil)
+        {
+            BaseRequest request = new BaseRequest();
+            try
+            {
+                return await _usuarios.InsertarActualizarPerfiles(perfil);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
     }
 }

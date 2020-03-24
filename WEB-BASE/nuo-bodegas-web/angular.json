@@ -22,7 +22,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -68,7 +68,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nuo-bodegas-web:build"
+            "browserTarget": "nuo-bodegas-web:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -128,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "nuo-bodegas-web"
+  "defaultProject": "nuo-bodegas-web",
+  "cli": {
+    "analytics": "6be0170d-deb7-4207-b0f9-fceaee1953ab"
+  }
 }

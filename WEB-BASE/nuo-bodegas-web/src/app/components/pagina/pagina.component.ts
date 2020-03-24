@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IPagina } from 'src/app/models/pagina.model';
+import { IPagina } from 'src/app/components/pagina/models/pagina.model';
 
 @Component({
   selector: 'app-pagina',
@@ -11,7 +11,8 @@ export class PaginaComponent implements OnInit {
   constructor() { }
   @Input() pagina : IPagina;
   ngOnInit() {
-    console.log(this.pagina.graficoPagina)
+
+
   }
 
 }

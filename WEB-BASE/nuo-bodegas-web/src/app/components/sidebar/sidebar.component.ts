@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PaginasService } from 'src/app/core/paginas.service';
-import { IPagina } from 'src/app/models/pagina.model';
+import { PaginasService } from 'src/app/components/pagina/service/paginas.service';
+import { IPagina } from 'src/app/components/pagina/models/pagina.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
   }
   obtenerPaginas(pagina){
     this.paginas = pagina.resultado;
+    console.log(this.paginas);
   }
   manejarError(error) {
     alert(error.mensaje);

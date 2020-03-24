@@ -28,7 +28,7 @@ namespace nuo_api_bodegas.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<BaseResponse> Get(int id)
+        public async Task<ActionResult<BaseResponse>> Get(int id)
         {
             BaseResponse response = new BaseResponse();
             try
@@ -44,6 +44,33 @@ namespace nuo_api_bodegas.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<ActionResult<BaseResponse>>ListarPerfiles()
+        {
+            try
+            {
+                return await _perfiles.ListarPerfiles();
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("paginas/{id}")]
+        public async Task<ActionResult<BaseRequest>> ListaPaginas(int id)
+        {
+            try
+            {
+                return await _perfiles.GetPaginasPerfiles(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         /// <summary>
         /// Insterta Actualiza Perfiles 
@@ -67,6 +94,23 @@ namespace nuo_api_bodegas.Controllers
             }
         }
 
+        [HttpPost("paginas")]
+        public async Task<ActionResult<BaseResponse>> ActualizarPaginasPerfil([FromBody] PaginaPerfil paginaPerfil)
+        {
+            BaseResponse response = new BaseResponse();
+            try
+            {
+                return await _perfiles.GuardarPaginaPerfil(paginaPerfil);
+            }
+            catch (Exception er)
+            {
+                response.codigo = "500";
+                response.status = "error";
+                response.mensaje = er.Message;
+                return response;
+            }
+
+        }
 
         [HttpPost("perfilusuario")]
         public async Task<BaseRequest> PostPerfilUsuario([FromBody] List<object> list)

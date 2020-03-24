@@ -34,6 +34,17 @@ namespace nuo_api_bodegas
             services.AddScoped<ValoresUsuario>();
             services.AddScoped<ValoresPaginas>();
             services.AddScoped<ValoresPerfiles>();
+            services.AddScoped<ValoresBodegas>();
+            services.AddScoped<ValoresCiudad>();
+            services.AddScoped<ValoresProveedores>();
+            services.AddScoped<ValoresModelos>();
+            services.AddScoped<ValoresUbicacion>();
+            services.AddScoped<ValoresTipo>();
+            services.AddScoped<ValoresProductos>();
+            services.AddScoped<ValoresMovimientos>();
+            services.AddScoped<ValoresEntrada>();
+            services.AddScoped<ValoresDespacho>();
+            services.AddScoped<ValoresKardex>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
 
@@ -49,7 +60,6 @@ namespace nuo_api_bodegas
                          Encoding.UTF8.GetBytes(Configuration["JWT:key"])),
                      ClockSkew = TimeSpan.Zero
                  });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -32,9 +32,9 @@ namespace nuo_api_bodegas.Data
                 response.resultado = new List<object>();
                 try
                 {
-                    using (SqlCommand cmd = new SqlCommand("SP_DEVUELVE_USUARIO", sql))
+                    using (SqlCommand cmd = new SqlCommand("SP_LOGIN_USER", sql))
                     {
-                        cmd.Parameters.Add(new SqlParameter("@username", login.Usuario));
+                        cmd.Parameters.Add(new SqlParameter("@ALIAS_USR", login.Usuario));
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         response.status = "correcto";
                         response.mensaje = "Consulta Correcta";
@@ -57,7 +57,7 @@ namespace nuo_api_bodegas.Data
                             }
                             else
                             {
-                                cmd.Parameters.Add(new SqlParameter("@username", login.Usuario));
+                                cmd.Parameters.Add(new SqlParameter("@ALIAS_USR", login.Usuario));
                                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                                 response.status = "error";
                                 response.mensaje = "El usuario y contraseña no están registrados en el sistema";
@@ -95,7 +95,7 @@ namespace nuo_api_bodegas.Data
                 };
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var expiration = DateTime.UtcNow.AddMonths(1);
+                var expiration = DateTime.UtcNow.AddDays(1);
 
                 JwtSecurityToken token = new JwtSecurityToken(
                     issuer: null,
